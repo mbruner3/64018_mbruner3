@@ -1,0 +1,33 @@
+---
+title: "mbruner3_mod4"
+author: "Mark Bruner"
+date: "9/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(lpSolveAPI)
+```
+# defining parameters
+```{r}
+factory <- make.lp(9, 9)
+lp.control(factory, sense = "max")
+set.objfn(factory, c(420, 420, 420, 360, 360, 360, 300, 300, 300))
+add.constraint(factory, c(20, 0, 0, 15, 0, 0, 12, 0, 0), "<=", 13000)
+add.constraint(factory, c(0, 20, 0, 0, 15, 0, 0, 12, 0), "<=", 12000)
+add.constraint(factory, c(0, 0, 20, 0, 0, 15, 0, 0, 12), "<=", 12000)
+add.constraint(factory, c(1, 1, 1), indices = c(1, 4, 7), "<=", 750)
+add.constraint(factory, c(1, 1, 1), indices = c(2, 5, 8), "<=", 900)
+add.constraint(factory, c(1, 1, 1), indices = c(3, 6, 9), "<=", 450)
+add.constraint(factory, c(1, 1, 1), indices = c(1, 4, 7), "<=", 900)
+add.constraint(factory, c(1, 1, 1), indices = c(2, 5, 8), "<=", 1200)
+add.constraint(factory, c(1, 1, 1), indices = c(3, 6, 9), "<=", 750)
+solve(factory)
+get.objective(factory)
+get.variables(factory)
+```
+

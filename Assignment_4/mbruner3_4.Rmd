@@ -24,7 +24,7 @@ set.objfn(factory, c(420, 420, 420, 360, 360, 360, 300, 300, 300))
 ```{r}
 add.constraint(factory, c(20, 0, 0, 15, 0, 0, 12, 0, 0), "<=", 13000)
 add.constraint(factory, c(0, 20, 0, 0, 15, 0, 0, 12, 0), "<=", 12000)
-add.constraint(factory, c(0, 0, 20, 0, 0, 15, 0, 0, 12), "<=", 12000)
+add.constraint(factory, c(0, 0, 20, 0, 0, 15, 0, 0, 12), "<=", 5000)
 add.constraint(factory, c(1, 1, 1), indices = c(1, 4, 7), "<=", 750)
 add.constraint(factory, c(1, 1, 1), indices = c(2, 5, 8), "<=", 900)
 add.constraint(factory, c(1, 1, 1), indices = c(3, 6, 9), "<=", 450)

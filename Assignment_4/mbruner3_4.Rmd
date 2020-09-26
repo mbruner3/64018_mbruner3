@@ -31,6 +31,8 @@ add.constraint(factory, c(1, 1, 1), indices = c(3, 6, 9), "<=", 450)
 add.constraint(factory, c(1, 1, 1), indices = c(1, 4, 7), "<=", 900)
 add.constraint(factory, c(1, 1, 1), indices = c(2, 5, 8), "<=", 1200)
 add.constraint(factory, c(1, 1, 1), indices = c(3, 6, 9), "<=", 750)
+add.constraint(factory, c(1/750, 1/750, 1/750, -1/900, -1/900, -1/900), indices = c(1, 2, 4, 5, 7, 8), "=", 0)
+add.constraint(factory, c(1/750, 1/750, 1/750, -1/900, -1/900, -1/900), indices = c(1, 3, 4, 6, 7, 9), "=", 0)
 ```
 # Solve LP model
 ```{r}
@@ -38,4 +40,38 @@ solve(factory)
 get.objective(factory)
 get.variables(factory)
 ```
+# Interpreting the output from optimization routines
+L1 = 481.81818
+L2 = 203.48837
+L3 = 0.00000
+M1 = 48.48485
+M2 = 0.00000
+M3 = 0.00000
+S1 = 219.69697
+S2 = 660.85271
+S3 = 416.66667
+
+In order to satisfy the constraints on the LP Model, the Weigelt Corporation should produce the following quantities of L, M, and S at each factory:
+
+Factory 1 (space = 13000 sq ft and capacity is 750 units, rounded due to the inability to produce partial products.)
+L1 = 481
+M1 = 48
+S1 = 220
+
+Factory 2 (space = 12000 sq ft and capacity is 900 units, rounded due to the inability to produce partial products.)
+L2 = 203
+M2 = 0
+S2 = 661
+
+Factory 3 (space = 5000 sq ft and capacity is 450 units, rounded due to the inability to produce partial products.)
+L3 = 0
+M3 = 0
+S3 = 417
+
+# Interpreting optimal objective function value:
+If the above production occurs at each factory, optimal amount of money they can expect in profit per day.
+~$694,448.20
+
+
+
 

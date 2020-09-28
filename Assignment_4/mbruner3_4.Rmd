@@ -53,20 +53,20 @@ S3 = 416.66667
 
 In order to satisfy the constraints on the LP Model, the Weigelt Corporation should produce the following quantities of L, M, and S at each factory:
 
-Factory 1 (space = 13000 sq ft and capacity is 750 units, rounded due to the inability to produce partial products.)
-L1 = 481
-M1 = 48
-S1 = 220
+Factory 1 (space = 13000 sq ft and capacity is 750 units.)
+L1 = 481.81818
+M1 = 48.48485
+S1 = 220.69697
 
-Factory 2 (space = 12000 sq ft and capacity is 900 units, rounded due to the inability to produce partial products.)
-L2 = 203
+Factory 2 (space = 12000 sq ft and capacity is 900 units.)
+L2 = 203.48837
 M2 = 0
-S2 = 661
+S2 = 660.85271
 
-Factory 3 (space = 5000 sq ft and capacity is 450 units, rounded due to the inability to produce partial products.)
+Factory 3 (space = 5000 sq ft and capacity is 450 units.)
 L3 = 0
 M3 = 0
-S3 = 417
+S3 = 416.66667
 
 # Interpreting optimal objective function value:
 If the above production occurs at each factory, optimal amount of money they can expect in profit per day.

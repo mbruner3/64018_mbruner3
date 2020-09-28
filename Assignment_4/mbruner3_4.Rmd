@@ -14,8 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(lpSolveAPI)
 ```
-# defining decision variables and objective function
-```{r, include=FALSE}
+# Defining decision variables and objective function
+```{r}
 factory <- make.lp(0, 9)
 lp.control(factory, sense = "max")
 set.objfn(factory, c(420, 360, 300, 420, 360, 300, 420, 360, 300))

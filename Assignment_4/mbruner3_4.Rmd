@@ -47,7 +47,8 @@ Same percentage of capacity
 add.constraint(lprec, c(rep(900, 3), rep(-750, 3)), indices = c(1, 2, 3, 4, 5, 6), "=", 0)
 add.constraint(lprec, c(rep(450, 3), rep(-750, 3)), indices = c(1, 2, 3, 7, 8, 9), "=", 0)
 
-set.bounds(lprec, lower = c(rep(0, 9)), columns = c(1:9))
+set.bounds(lprec, lower = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
+
 ```
 
 # Decision Variable Names
@@ -55,6 +56,7 @@ set.bounds(lprec, lower = c(rep(0, 9)), columns = c(1:9))
 RowNames <- c("Capacity 1", "Capacity 2", "Capacity 3", "Sqft1", "Sqft2", "Sqft3", "Sales 1", "Sales 2", "Sales 3", "Same 1", "Same 2")
 ColNames <- c("L1","M1","S1", "L2", "M2", "S2", "L3", "M3", "S3")
 dimnames(lprec) <- list(RowNames, ColNames)
+write.lp(lprec, filename = "weigelt.lp", type = "lp")
 lprec
 ```
 
@@ -70,6 +72,7 @@ get.objective(lprec)
 Decision Variables
 ```{r}
 get.variables(lprec)
+get.constraints(lprec)
 ```
 
 
@@ -82,19 +85,33 @@ L1 = 516.6667
 M1 = 177.7778   
 S1 = 0.00000
 
+Optimal capacity is 694.44 units using 13000 sq ft.
+
 Factory 2 (space = 12000 sq ft and capacity is 900 units.)
 L2 =  0.00000 
 M2 = 666.6667 
 S2 = 166.6667
+
+Optimal capacity is 833.33 units using 12000 sq ft.
 
 Factory 3 (space = 5000 sq ft and capacity is 450 units.)
 L3 = 0
 M3 = 0
 S3 = 416.6667
 
+# Projected sales of each size
+
+Large = 516.67 units of the 900 forecasted.
+Medium = 844.44 units of the 1200 forecasted.
+Small = 583.33 units of the 750 forecasted.
+
+
+Optimal capacity is 416.67 units using 5000 sq. ft.
+
 # Interpreting optimal objective function value:
 If the above production occurs at each factory, optimal amount of money they can expect in profit per day.
 ~$696,000
+
 
 
 

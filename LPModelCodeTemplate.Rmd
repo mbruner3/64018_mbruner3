@@ -1,0 +1,92 @@
+---
+title: "LPDualityTemplate"
+author: "Mark Bruner"
+date: "10/6/2020"
+output: html_document
+---
+
+```{r}
+library(lpSolveAPI)
+```
+
+# Defining decision variables and objective function
+```{r}
+lprec <- make.lp(0, 3)
+lp.control(lprec, sense = "max")
+set.objfn(lprec, c(10, 12, 4))
+```
+# Set constraints 
+```{r}
+add.constraint(lprec, c(1, 1, 1), ">=", 75)
+add.constraint(lprec, c(3, 4, 5), "<=", 360)
+add.constraint(lprec, c(8, 8, 2), "<=", 480)
+```
+
+# Duality and Optimal Readout
+```{r}
+write.lp(lprec, filename = "lprec.lp")
+x <- read.lp(filename = "lprec.lp")
+solve(x)
+get.objective(x)        # get objective value
+get.variables(x)        # get values of decision variables
+get.constraints(x)      # get constraint RHS values
+get.sensitivity.rhs(x)  # get shadow prices
+get.sensitivity.obj(x)  # get reduced cost
+```
+
+# Creating readable chart for Duality of Decision Variables
+```{r}
+final_value <- data.frame(matrix(get.variables(x), nrow = 3, ncol = 1, byrow = FALSE))      # created "Final Value" column of decision varialbe chart.
+colnames(final_value) <- c("Final Value") # renamed column, will do this many times and will not comment on it.
+
+reduce_sp <- get.sensitivity.rhs(x)  
+reduced_cost <- data.frame(matrix(reduce_sp$duals, nrow = 3, ncol = 2)) # get reduced cost and shadow price as a df.
+
+reduced_cost <- data.frame(matrix(reduced_cost$X2, nrow = 3, ncol = 1)) # made "reduced cost" column.
+colnames(reduced_cost) <- c("Reduced Cost") # make obj coefficients a df.
+
+obj_coeff <- data.frame(matrix(c(10, 12, 4), nrow = 3, ncol = 1)) # make obj coefficients a df.
+colnames(obj_coeff) <- c("Obj Coeff") 
+
+var_allowable <- get.sensitivity.obj(x)  # get decision variable allowable increase and decrease.
+
+var_allowable_inc <- data.frame(matrix(var_allowable$objtill, nrow = 3, ncol = 1)) # make allowable increase column.
+colnames(var_allowable_inc) <- c("Obj Coeff + Allow Incr") 
+
+var_allowable_decr <- obj_coeff - data.frame(matrix(var_allowable$objfrom, nrow = 3, ncol = 1)) # make allowable decrease column.
+colnames(var_allowable_decr) <- c("Obj Coeff - Allow Decr") 
+
+dec_variable_change <- cbind(final_value, reduced_cost, obj_coeff, var_allowable_inc, var_allowable_decr) # df for decision variables chart.
+
+rownames(dec_variable_change) <- c("X1", "X2", "X3")
+```
+
+# Create readable chart for Duality in Constraints.
+```{r}
+opt_constraint <- data.frame(matrix(get.constraints(x),  nrow = 3, ncol = 1, byrow = FALSE))    # get constraints solution and made a column.
+colnames(opt_constraint) <- c("Final Value") 
+
+shadow_price <- data.frame(matrix(reduce_sp$duals, nrow = 3, ncol = 2)) # get duals so I can separate the shadow price from the df.
+
+shadow_price <- data.frame(matrix(shadow_price$X1, nrow = 3, ncol = 1))
+colnames(shadow_price) <- c("Shadow Price") # make shadow price as a column.
+
+constraint_RHS <- data.frame(matrix(c(75, 360, 480), nrow = 3, ncol = 1))
+colnames(constraint_RHS) <- c("Constraint RHS") # created df for the constraints RHS.
+
+constr_allow_incr_decr <- data.frame(matrix(reduce_sp$dualstill, nrow = 3, ncol = 2)) # get duals so I can separate the constraint allowable incr from the df.
+
+constr_allow_incr <- data.frame(matrix(constr_allow_incr_decr$X1, nrow = 3, ncol = 1)) - constraint_RHS
+colnames(constr_allow_incr) <- c("RHS - Allow Incr")
+
+constr_allow_decr <- data.frame(matrix(constr_allow_incr_decr$X2, nrow = 3, ncol = 1)) + constraint_RHS
+colnames(constr_allow_decr) <- c("RHS + Allow Decr")
+
+constr_change <- cbind(opt_constraint, shadow_price, constraint_RHS, constr_allow_incr, constr_allow_decr) # df for constraints chart.
+
+rownames(constr_change) <- c("Constraint 1", "Constraint 2", "Constraint 3")
+
+dec_variable_change
+constr_change
+
+```

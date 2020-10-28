@@ -3,9 +3,9 @@ title: "mbruner3_8"
 author: "Mark Bruner"
 date: "10/19/2020"
 output:
-  pdf_document: default
-  word_document: default
   html_document: default
+  word_document: default
+  pdf_document: default
 ---
 ```{r}
 rm(list=ls())
@@ -265,7 +265,7 @@ gt(
   data = hope_valley_lamb
 ) %>%
   tab_header(
-    title = "Hope Valley Facility Peers"
+    title = "Hope Valley Facility Lambda"
 ) %>% 
   tab_spanner(
     label = "CRS",

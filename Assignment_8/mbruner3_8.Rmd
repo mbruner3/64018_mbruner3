@@ -4,6 +4,7 @@ author: "Mark Bruner"
 date: "10/19/2020"
 output:
   pdf_document: default
+  word_document: default
   html_document: default
 ---
 ```{r}
@@ -14,14 +15,17 @@ rm(list=ls())
 library(Benchmarking)
 library(lpSolveAPI)
 library(ucminf)
+library(tidyverse)
+library(gt)
 ```
 # HOPE VALLEY HEALTH CARE ASSOC.
-## DEA Formulation
+
+#### DEA Formulation
 **Our DMU's are the 6 different nursing home facilities. The inputs are staffing labor (measured in average hours per day) and the cost of supplies (in
-thousands of dollars per day). The outputs are the number of patient-days reimbursed by thirdparty sources and the number of patient-days reimbursed privately.**
+thousands of dollars per day). The outputs are the number of patient-days reimbursed by third-party sources and the number of patient-days reimbursed privately.**
 
 # QUESTIONS 1 & 2: Formulate and Model Analysis
-## Summary of Performance Data
+#### Summary of Performance Data
 ```{r}
 y <- as.data.frame(matrix(c(14000, 3500, 14000, 21000, 42000, 10500, 28000, 42000, 19000, 25000, 14000, 15000), ncol = 2, byrow = TRUE))
 x <- as.data.frame(matrix(c(150, .2, 400, .7, 320, 1.2, 520, 2.0, 350, 1.2, 320, .7),ncol = 2, byrow = TRUE))
@@ -30,74 +34,273 @@ hope_valley <- cbind(x, y)
 rownames(hope_valley) <- c("F1","F2","F3","F4","F5","F6")
 colnames(hope_valley) <- c("reimbur_patient_day", "priv_patient_day", "st_hour_day","supplies_day")
 
-hope_valley 
+str(hope_valley) 
 ```
-## **FDH Model**
+#### FDH Model
 ```{r}
 fdh <- dea(x, y, RTS = "fdh")            # provide the input and output 
-fdh
-peers(fdh)                             # identify the peers
-lambda(fdh)                            # identify the relative weights given to the peers
-dea.plot.isoquant(x,y,RTS="fdh", GRID = TRUE)     # plot the results
+
+as.data.frame(peers(fdh)) -> p_fdh                       # identify the peers
+p_fdh %>% 
+  rename(fdhP1 = peer1) -> p_fdh
+
+as.data.frame(lambda(fdh)) -> l_fdh                    # identify the relative weights given to the peers
+l_fdh %>% 
+  rename(fdhL1 = L1, fdhL2 = L2, fdhL3 = L3, fdhL4 = L4, fdhL5 = L5, fdhL6 = L6) -> l_fdh
+
+p_fdh
+```
+
+```{r}
+l_fdh
+```
+
+```{r}
 e_fdh <- fdh$eff
 ```
+
 The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.
 
-## **VRS Model**
+**Note: I did have the plots included for each model but because there exists two inputs and two outputs, I found the plots unhelpful since they would be more than two dimensional.**
+
+#### VRS Model
 ```{r}
-vrs <- dea(x,y,RTS = "vrs")            # provide the input and output 
-vrs
-peers(vrs)                             # identify the peers
-lambda(vrs)                            # identify the relative weights given to the peers
+vrs <- dea(x, y, RTS = "vrs")            # provide the input and output 
+
+as.data.frame(peers(vrs)) -> p_vrs                       # identify the peers
+p_vrs %>% 
+  rename(vrsP1 = peer1, vrsP2 = peer2, vrsP3 = peer3) -> p_vrs
+
+as.data.frame(lambda(vrs)) -> l_vrs                    # identify the relative weights given to the peers
+l_vrs %>% 
+  rename(vrsL1 = L1, vrsL2 = L2, vrsL3 = L3, vrsL4 = L4, vrsL5 = L5) -> l_vrs
+p_vrs
+```
+
+```{r}
+l_vrs
+```
+
+```{r}
 e_vrs <- vrs$eff
 ```
-The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256.
 
-## **DRS Model**
+The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256. 
+
+#### DRS Model
 ```{r}
-drs <- dea(x,y,RTS = "drs")            # provide the input and output 
-drs
-peers(drs)                             # identify the peers
-lambda(drs)                            # identify the relative weights given to the peers
+drs <- dea(x, y, RTS = "drs")            # provide the input and output 
+
+as.data.frame(peers(drs)) -> p_drs                       # identify the peers
+p_drs %>% 
+  rename(drsP1 = peer1, drsP2 = peer2, drsP3 = peer3) -> p_drs
+
+as.data.frame(lambda(drs)) -> l_drs                    # identify the relative weights given to the peers
+l_drs %>% 
+  rename(drsL1 = L1, drsL2 = L2, drsL3 = L3, drsL4 = L4) -> l_drs
+p_drs
+```
+
+```{r}
+l_drs
+```
+
+```{r}
 e_drs <- drs$eff
 ```
-The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. For DMU(6), the peer units are 1, 2, and 5, with relative weights 0.401, .342 and 0.256. **What is interesting is that for DMU(5), it is not fully efficient but it's peer is itself and has not additional weight.**
 
-## **CRS model**
+The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. For DMU(5), the peer units are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. For DMU(6), the peer units are 1, 2, and 4, with relative weights 0.343, .395 and 0.131.  
+
+#### CRS model
 ```{r}
 crs <- dea(x,y,RTS = "crs")            # provide the input and output 
-crs
-peers(crs)                             # identify the peers
-lambda(crs)                            # identify the relative weights given to the lamdba.
+
+as.data.frame(peers(crs)) -> p_crs                       # identify the peers
+p_crs %>% 
+  rename(crsP1 = peer1, crsP2 = peer2, crsP3 = peer3) -> p_crs
+
+as.data.frame(lambda(crs)) -> l_crs                    # identify the relative weights given to the peers
+l_crs %>% 
+  rename(crsL1 = L1, crsL2 = L2, crsL3 = L3, crsL4 = L4) -> l_crs
+p_crs
+```
+
+```{r}
+l_crs
+```
+
+```{r}
 e_crs <- crs$eff
 ```
-The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively.
 
-## **IRS model**
+The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively. **Same result as the CRS model.**
+
+#### IRS model
 ```{r}
 irs <- dea(x,y,RTS = "irs")            # provide the input and output 
-irs
-peers(irs)                             # identify the peers
-lambda(irs)                            # identify the relative weights given to the peers
+
+as.data.frame(peers(irs)) -> p_irs                       # identify the peers
+p_irs %>% 
+  rename(irsP1 = peer1, irsP2 = peer2, irsP3 = peer3) -> p_irs
+
+as.data.frame(lambda(irs)) -> l_irs                    # identify the relative weights given to the peers
+l_irs %>% 
+  rename(irsL1 = L1, irsL2 = L2, irsL3 = L3, irsL4 = L4, irsL5 = L5) -> l_irs
+
+p_irs
+```
+
+```{r}
+l_irs
+```
+
+```{r}
 e_irs <- irs$eff
 ```
+
 The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256.
 
-## **FRH model**
+#### FRH model
 ```{r}
 frh <- dea(x,y,RTS = "add")            # provide the input and output 
-frh
-peers(frh)                             # identify the peers
-lambda(frh)                            # identify the relative weights given to the peers
+
+as.data.frame(peers(frh)) -> p_frh                       # identify the peers
+p_frh %>% 
+  rename(frhP1 = peer1) -> p_frh
+
+as.data.frame(lambda(frh)) -> l_frh                    # identify the relative weights given to the peers
+l_frh %>% 
+  rename(frhL1 = L1, frhL2 = L2, frhL3 = L3, frhL4 = L4, frhL5 = L5, frhL6 = L6) -> l_frh
+
+p_frh
+```
+
+```{r}
+l_frh
+```
+
+```{r}
 e_frh <- frh$eff
 ```
+
 The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.
 
 # QUESTION 3: Summary of Results
+
+#### Hope Valley Facility Efficiencies 
 ```{r}
-hope_valley <- cbind(hope_valley, e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs)
-hope_valley
+hope_valley_eff <- as.data.frame(cbind(c(1:6),e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs))
+gt(
+  data = hope_valley_eff
+) %>%
+  tab_header(
+    title = "Hope Valley Facility Efficiencies"
+) %>% 
+  cols_label(
+    V1 = "DMU",
+    e_crs = "CRS Eff",
+    e_drs = "DRS Eff",
+    e_fdh = "FDH Eff",
+    e_frh = "FRH Eff",
+    e_irs = "IRS Eff",
+    e_vrs = "VRS Eff"
+) %>% 
+  fmt_number (
+    vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
+    decimals = 2
+) %>% 
+  opt_table_lines(
+) %>%
+  data_color(
+    columns = vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
+    colors = c("red", "orange", "green")
+)
 ```
+
+#### Hope Valley Facility Peers 
+```{r}
+hope_valley_peers <- as.data.frame(cbind(p_crs, p_drs, p_fdh, p_frh, p_irs, p_vrs))
+
+gt(
+  data = hope_valley_peers
+) %>%
+  tab_header(
+    title = "Hope Valley Facility Peers"
+) %>% 
+  tab_spanner(
+    label = "CRS",
+    vars(crsP1, crsP2, crsP3)
+) %>% 
+  tab_spanner(
+    label = "DRS",
+    vars(drsP1, drsP2, drsP3)
+) %>% 
+  tab_spanner(
+    label = "FDH",
+    vars(fdhP1)
+) %>%  
+  tab_spanner(
+    label = "FRH",
+    vars(frhP1) 
+) %>% 
+    tab_spanner(
+    label = "IRS",
+    vars(irsP1, irsP2, irsP3)
+) %>% 
+  tab_spanner(
+    label = "VRS",
+    vars(vrsP1, vrsP2, vrsP3)
+) %>%
+  data_color(
+    columns = vars(vrsP1, vrsP2, vrsP3, irsP1, irsP2, irsP3, frhP1, fdhP1, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3),
+    colors = c("red", "orange", "green")
+) 
+```
+
+#### Hope Valley Facility Lambda
+```{r}
+hope_valley_lamb <- cbind(l_crs, l_drs, l_fdh, l_frh, l_irs, l_vrs)
+
+gt(
+  data = hope_valley_lamb
+) %>%
+  tab_header(
+    title = "Hope Valley Facility Peers"
+) %>% 
+  tab_spanner(
+    label = "CRS",
+    vars(crsL1, crsL2, crsL3, crsL4)
+) %>% 
+  tab_spanner(
+    label = "DRS",
+    vars(drsL1, drsL2, drsL3, drsL4)
+) %>% 
+  tab_spanner(
+    label = "FDH",
+    vars(fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6)
+) %>%  
+  tab_spanner(
+    label = "FRH",
+    vars(frhL1, frhL2, frhL3, frhL4, frhL5, frhL6) 
+) %>% 
+    tab_spanner(
+    label = "IRS",
+    vars(irsL1, irsL2, irsL3, irsL4, irsL5)
+) %>% 
+  tab_spanner(
+    label = "VRS",
+    vars(vrsL1, vrsL1, vrsL3, vrsL4, vrsL5)
+) %>% 
+  fmt_number (
+    vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
+    decimals = 2
+)%>%
+  data_color(
+    columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
+    colors = c("red", "orange", "green")
+)
+```
+
 # QUESTION 4
-## **Compare/Contrast**
-All six models agree that DMU's 1 to 4 are efficient. DMU 5 and 6 are the facilities where they differ in results. Although DMU 5 may be sufficiently high enough at 97% to also classify it as efficient since the other models classified it as so. DMU(6), however, has similiar efficiency of 4 out of the 6 models. This tells me that the performance at this facility can be improved by looking at the operations at 1 and 2. Two of the models include DMU(5) as a peer but not DMU(4), while the other two have DMU(4) as the peer and not DMU(5). I would say that DMU(4) would be the better peer to use since all the models include it as efficient while 5 is may not be fully efficient. 
+#### **Compare/Contrast**
+All six models agree that DMU's 1 to 4 are efficient/frontiers. DMU 5 and 6 are the facilities where they differ in results. DMU(6) has similar efficiency of 4 out of the 6 models. This tells me that the performance at this facility can be improved using the peers suggested. Two of the models include DMU(5) as a frontier, while the other two have DMU(5) as inefficient. This seems to me to be that situation where a business has to decide how conservative they want their model to be and what assumptions they are good with assuming. I would say though that DMU's 1 to 4 are the most efficient facilities in Hope Valley. 

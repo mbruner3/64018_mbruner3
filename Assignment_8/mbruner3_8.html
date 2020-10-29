@@ -460,15 +460,15 @@ str(hope_valley) </code></pre>
 ##  $ st_hour_day        : num  14000 14000 42000 28000 19000 14000
 ##  $ supplies_day       : num  3500 21000 10500 42000 25000 15000</code></pre>
 </div>
-<div id="fdh-model" class="section level4">
-<h4>FDH Model</h4>
-<pre class="r"><code>fdh &lt;- dea(x, y, RTS = &quot;fdh&quot;)            # provide the input and output 
+<div id="model-1-fdh" class="section level3">
+<h3>MODEL 1: <em>FDH</em></h3>
+<pre class="r"><code>fdh &lt;- dea(x, y, RTS = &quot;fdh&quot;)        # provide the input and output 
 
-as.data.frame(peers(fdh)) -&gt; p_fdh                       # identify the peers
+as.data.frame(peers(fdh)) -&gt; p_fdh       # identify the peers
 p_fdh %&gt;% 
   rename(fdhP1 = peer1) -&gt; p_fdh
 
-as.data.frame(lambda(fdh)) -&gt; l_fdh                    # identify the relative weights given to the peers
+as.data.frame(lambda(fdh)) -&gt; l_fdh   # identify the relative weights given to the peers
 l_fdh %&gt;% 
   rename(fdhL1 = L1, fdhL2 = L2, fdhL3 = L3, fdhL4 = L4, fdhL5 = L5, fdhL6 = L6) -&gt; l_fdh
 
@@ -488,12 +488,14 @@ p_fdh</code></pre>
 ## 4     0     0     0     1     0     0
 ## 5     0     0     0     0     1     0
 ## 6     0     0     0     0     0     1</code></pre>
-<pre class="r"><code>e_fdh &lt;- fdh$eff</code></pre>
+<pre class="r"><code>e_fdh &lt;- fdh$eff
+e_fdh</code></pre>
+<pre><code>## [1] 1 1 1 1 1 1</code></pre>
 <p>The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.</p>
 <p><strong>Note: I did have the plots included for each model but because there exists two inputs and two outputs, I found the plots unhelpful since they would be more than two dimensional.</strong></p>
 </div>
-<div id="vrs-model" class="section level4">
-<h4>VRS Model</h4>
+<div id="model-2-vrs" class="section level3">
+<h3>MODEL 2: <em>VRS</em></h3>
 <pre class="r"><code>vrs &lt;- dea(x, y, RTS = &quot;vrs&quot;)            # provide the input and output 
 
 as.data.frame(peers(vrs)) -&gt; p_vrs                       # identify the peers
@@ -519,11 +521,13 @@ p_vrs</code></pre>
 ## 4 0.0000000 0.0000000     0     1 0.0000000
 ## 5 0.0000000 0.0000000     0     0 1.0000000
 ## 6 0.4014399 0.3422606     0     0 0.2562995</code></pre>
-<pre class="r"><code>e_vrs &lt;- vrs$eff</code></pre>
+<pre class="r"><code>e_vrs &lt;- vrs$eff
+e_vrs</code></pre>
+<pre><code>## [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8963283</code></pre>
 <p>The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256.</p>
 </div>
-<div id="drs-model" class="section level4">
-<h4>DRS Model</h4>
+<div id="model-3-drs" class="section level3">
+<h3>MODEL 3: <em>DRS</em></h3>
 <pre class="r"><code>drs &lt;- dea(x, y, RTS = &quot;drs&quot;)            # provide the input and output 
 
 as.data.frame(peers(drs)) -&gt; p_drs                       # identify the peers
@@ -549,11 +553,13 @@ p_drs</code></pre>
 ## 4 0.0000000 0.00000000     0 1.0000000
 ## 5 0.2000000 0.08048142     0 0.5383307
 ## 6 0.3428571 0.39499264     0 0.1310751</code></pre>
-<pre class="r"><code>e_drs &lt;- drs$eff</code></pre>
+<pre class="r"><code>e_drs &lt;- drs$eff
+e_drs</code></pre>
+<pre><code>## [1] 1.0000000 1.0000000 1.0000000 1.0000000 0.9774987 0.8674521</code></pre>
 <p>The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. For DMU(5), the peer units are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. For DMU(6), the peer units are 1, 2, and 4, with relative weights 0.343, .395 and 0.131.</p>
 </div>
-<div id="crs-model" class="section level4">
-<h4>CRS model</h4>
+<div id="model-4-crs" class="section level3">
+<h3>MODEL 4: <em>CRS</em></h3>
 <pre class="r"><code>crs &lt;- dea(x,y,RTS = &quot;crs&quot;)            # provide the input and output 
 
 as.data.frame(peers(crs)) -&gt; p_crs                       # identify the peers
@@ -579,11 +585,13 @@ p_crs</code></pre>
 ## 4 0.0000000 0.00000000     0 1.0000000
 ## 5 0.2000000 0.08048142     0 0.5383307
 ## 6 0.3428571 0.39499264     0 0.1310751</code></pre>
-<pre class="r"><code>e_crs &lt;- crs$eff</code></pre>
-<p>The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively. <strong>Same result as the CRS model.</strong></p>
+<pre class="r"><code>e_crs &lt;- crs$eff
+e_crs</code></pre>
+<pre><code>## [1] 1.0000000 1.0000000 1.0000000 1.0000000 0.9774987 0.8674521</code></pre>
+<p>The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively. <strong>Same result as the DRS model.</strong></p>
 </div>
-<div id="irs-model" class="section level4">
-<h4>IRS model</h4>
+<div id="model-5-irs" class="section level3">
+<h3>MODEL 5: <em>IRS</em></h3>
 <pre class="r"><code>irs &lt;- dea(x,y,RTS = &quot;irs&quot;)            # provide the input and output 
 
 as.data.frame(peers(irs)) -&gt; p_irs                       # identify the peers
@@ -610,11 +618,13 @@ p_irs</code></pre>
 ## 4 0.0000000 0.0000000     0     1 0.0000000
 ## 5 0.0000000 0.0000000     0     0 1.0000000
 ## 6 0.4014399 0.3422606     0     0 0.2562995</code></pre>
-<pre class="r"><code>e_irs &lt;- irs$eff</code></pre>
+<pre class="r"><code>e_irs &lt;- irs$eff
+e_irs</code></pre>
+<pre><code>## [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8963283</code></pre>
 <p>The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256.</p>
 </div>
-<div id="frh-model" class="section level4">
-<h4>FRH model</h4>
+<div id="model-6-frh" class="section level3">
+<h3>MODEL 6: <em>FRH</em></h3>
 <pre class="r"><code>frh &lt;- dea(x,y,RTS = &quot;add&quot;)            # provide the input and output 
 
 as.data.frame(peers(frh)) -&gt; p_frh                       # identify the peers
@@ -641,7 +651,9 @@ p_frh</code></pre>
 ## 4     0     0     0     1     0     0
 ## 5     0     0     0     0     1     0
 ## 6     0     0     0     0     0     1</code></pre>
-<pre class="r"><code>e_frh &lt;- frh$eff</code></pre>
+<pre class="r"><code>e_frh &lt;- frh$eff
+e_frh</code></pre>
+<pre><code>## [1] 1 1 1 1 1 1</code></pre>
 <p>The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.</p>
 </div>
 </div>
@@ -654,10 +666,10 @@ gt(
   data = hope_valley_eff
 ) %&gt;%
   tab_header(
-    title = &quot;Hope Valley Facility Efficiencies&quot;
+    title = md(&quot;**Hope Valley Facility Efficiencies**&quot;)
 ) %&gt;% 
   cols_label(
-    V1 = &quot;DMU&quot;,
+    V1 = md(&quot;**DMU**&quot;),
     e_crs = &quot;CRS Eff&quot;,
     e_drs = &quot;DRS Eff&quot;,
     e_fdh = &quot;FDH Eff&quot;,
@@ -667,57 +679,67 @@ gt(
 ) %&gt;% 
   fmt_number (
     vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
-    decimals = 2
+    decimals = 2,
+    drop_trailing_zeros = TRUE
 ) %&gt;% 
-  opt_table_lines(
-) %&gt;%
+  opt_row_striping(row_striping = TRUE) %&gt;% 
+  tab_options(
+    table.font.color = &quot;black&quot;,
+    column_labels.background.color = &quot;whitesmoke&quot;,
+    heading.background.color = &quot;whitesmoke&quot;
+  ) %&gt;% 
   data_color(
-    columns = vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
-    colors = c(&quot;red&quot;, &quot;orange&quot;, &quot;green&quot;)
+    columns = vars(e_crs, e_drs, e_irs, e_vrs),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = &quot;ggthemes::wsj_rgby&quot;
+    ) %&gt;% as.character(),
+      domain = NULL
+    )
 )</code></pre>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zjtygrehoh .gt_table {
+#cvzzspddfd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
-  color: #333333;
+  color: black;
   font-size: 16px;
   font-weight: normal;
-  font-style: solid;
+  font-style: normal;
   background-color: #FFFFFF;
   width: auto;
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_heading {
-  background-color: #FFFFFF;
+#cvzzspddfd .gt_heading {
+  background-color: whitesmoke;
   text-align: center;
   border-bottom-color: #FFFFFF;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_title {
-  color: #333333;
+#cvzzspddfd .gt_title {
+  color: black;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
@@ -726,8 +748,8 @@ gt(
   border-bottom-width: 0;
 }
 
-#zjtygrehoh .gt_subtitle {
-  color: #333333;
+#cvzzspddfd .gt_subtitle {
+  color: black;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
@@ -736,37 +758,37 @@ gt(
   border-top-width: 0;
 }
 
-#zjtygrehoh .gt_bottom_border {
+#cvzzspddfd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_col_headings {
+#cvzzspddfd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
+#cvzzspddfd .gt_col_heading {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: bottom;
@@ -777,9 +799,9 @@ gt(
   overflow-x: hidden;
 }
 
-#zjtygrehoh .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
+#cvzzspddfd .gt_column_spanner_outer {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -789,15 +811,15 @@ gt(
   padding-right: 4px;
 }
 
-#zjtygrehoh .gt_column_spanner_outer:first-child {
+#cvzzspddfd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zjtygrehoh .gt_column_spanner_outer:last-child {
+#cvzzspddfd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zjtygrehoh .gt_column_spanner {
+#cvzzspddfd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -809,9 +831,9 @@ gt(
   width: 100%;
 }
 
-#zjtygrehoh .gt_group_heading {
+#cvzzspddfd .gt_group_heading {
   padding: 8px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -822,18 +844,18 @@ gt(
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
 }
 
-#zjtygrehoh .gt_empty_group_heading {
+#cvzzspddfd .gt_empty_group_heading {
   padding: 0.5px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -846,15 +868,15 @@ gt(
   vertical-align: middle;
 }
 
-#zjtygrehoh .gt_from_md > :first-child {
+#cvzzspddfd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zjtygrehoh .gt_from_md > :last-child {
+#cvzzspddfd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zjtygrehoh .gt_row {
+#cvzzspddfd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -863,18 +885,18 @@ gt(
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: #D3D3D3;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
   overflow-x: hidden;
 }
 
-#zjtygrehoh .gt_stub {
-  color: #333333;
+#cvzzspddfd .gt_stub {
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -885,8 +907,8 @@ gt(
   padding-left: 12px;
 }
 
-#zjtygrehoh .gt_summary_row {
-  color: #333333;
+#cvzzspddfd .gt_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -895,7 +917,7 @@ gt(
   padding-right: 5px;
 }
 
-#zjtygrehoh .gt_first_summary_row {
+#cvzzspddfd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -905,8 +927,8 @@ gt(
   border-top-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_grand_summary_row {
-  color: #333333;
+#cvzzspddfd .gt_grand_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -915,21 +937,21 @@ gt(
   padding-right: 5px;
 }
 
-#zjtygrehoh .gt_first_grand_summary_row {
+#cvzzspddfd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
-  border-top-style: solid;
+  border-top-style: double;
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_striped {
+#cvzzspddfd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zjtygrehoh .gt_table_body {
+#cvzzspddfd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -938,83 +960,83 @@ gt(
   border-bottom-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_footnotes {
-  color: #333333;
+#cvzzspddfd .gt_footnotes {
+  color: black;
   background-color: #FFFFFF;
-  border-bottom-style: solid;
+  border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_footnote {
+#cvzzspddfd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zjtygrehoh .gt_sourcenotes {
-  color: #333333;
+#cvzzspddfd .gt_sourcenotes {
+  color: black;
   background-color: #FFFFFF;
-  border-bottom-style: solid;
+  border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
-  border-left-style: solid;
+  border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-  border-right-style: solid;
+  border-right-style: none;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
 
-#zjtygrehoh .gt_sourcenote {
+#cvzzspddfd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zjtygrehoh .gt_left {
+#cvzzspddfd .gt_left {
   text-align: left;
 }
 
-#zjtygrehoh .gt_center {
+#cvzzspddfd .gt_center {
   text-align: center;
 }
 
-#zjtygrehoh .gt_right {
+#cvzzspddfd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zjtygrehoh .gt_font_normal {
+#cvzzspddfd .gt_font_normal {
   font-weight: normal;
 }
 
-#zjtygrehoh .gt_font_bold {
+#cvzzspddfd .gt_font_bold {
   font-weight: bold;
 }
 
-#zjtygrehoh .gt_font_italic {
+#cvzzspddfd .gt_font_italic {
   font-style: italic;
 }
 
-#zjtygrehoh .gt_super {
+#cvzzspddfd .gt_super {
   font-size: 65%;
 }
 
-#zjtygrehoh .gt_footnote_marks {
+#cvzzspddfd .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="zjtygrehoh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="cvzzspddfd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="7" class="gt_heading gt_title gt_font_normal" style>Hope Valley Facility Efficiencies</th>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal" style><strong>Hope Valley Facility Efficiencies</strong></th>
     </tr>
     <tr>
       <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
@@ -1022,7 +1044,7 @@ gt(
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">DMU</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1"><strong>DMU</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">CRS Eff</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">DRS Eff</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">FDH Eff</th>
@@ -1034,57 +1056,57 @@ gt(
   <tbody class="gt_table_body">
     <tr>
       <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right">2</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_right gt_striped">2</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
       <td class="gt_row gt_right">3</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right">4</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_right gt_striped">4</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
       <td class="gt_row gt_right">5</td>
-      <td class="gt_row gt_right" style="background-color: #9CE500; color: #000000;">0.98</td>
-      <td class="gt_row gt_right" style="background-color: #9CE500; color: #000000;">0.98</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_right" style="background-color: #639891; color: #000000;">0.98</td>
+      <td class="gt_row gt_right" style="background-color: #639891; color: #000000;">0.98</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right">6</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.87</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.87</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FFA500; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.90</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.90</td>
+      <td class="gt_row gt_right gt_striped">6</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0.87</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0.87</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0.9</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0.9</td>
     </tr>
   </tbody>
   
@@ -1093,52 +1115,81 @@ gt(
 </div>
 <div id="hope-valley-facility-peers" class="section level4">
 <h4>Hope Valley Facility Peers</h4>
-<pre class="r"><code>hope_valley_peers &lt;- as.data.frame(cbind(p_crs, p_drs, p_fdh, p_frh, p_irs, p_vrs))
+<pre class="r"><code>hope_valley_peers &lt;- as.data.frame(cbind(&quot;DMU&quot; = c(1:6), p_crs, p_drs, p_fdh, p_frh, p_irs, p_vrs))
 
 gt(
   data = hope_valley_peers
 ) %&gt;%
   tab_header(
-    title = &quot;Hope Valley Facility Peers&quot;
+    title = md(&quot;**Hope Valley Facility Peers**&quot;)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;CRS&quot;,
+    label = md(&quot;**CRS**&quot;),
     vars(crsP1, crsP2, crsP3)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;DRS&quot;,
+    label = md(&quot;**DRS**&quot;),
     vars(drsP1, drsP2, drsP3)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;FDH&quot;,
+    label = md(&quot;**FDH**&quot;),
     vars(fdhP1)
 ) %&gt;%  
   tab_spanner(
-    label = &quot;FRH&quot;,
+    label = md(&quot;**FRH**&quot;),
     vars(frhP1) 
 ) %&gt;% 
     tab_spanner(
-    label = &quot;IRS&quot;,
+    label = md(&quot;**IRS**&quot;),
     vars(irsP1, irsP2, irsP3)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;VRS&quot;,
+    label = md(&quot;**VRS**&quot;),
     vars(vrsP1, vrsP2, vrsP3)
-) %&gt;%
+) %&gt;% 
+  opt_row_striping(row_striping = TRUE) %&gt;% 
+  tab_options(
+    table.font.color = &quot;black&quot;,
+    column_labels.background.color = &quot;whitesmoke&quot;,
+    heading.background.color = &quot;whitesmoke&quot;,
+  ) %&gt;% 
   data_color(
-    columns = vars(vrsP1, vrsP2, vrsP3, irsP1, irsP2, irsP3, frhP1, fdhP1, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3),
-    colors = c(&quot;red&quot;, &quot;orange&quot;, &quot;green&quot;)
-) </code></pre>
+    columns = vars(irsP1, irsP2, frhP1, fdhP1, irsP3, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3, vrsP1, vrsP2, vrsP3),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = &quot;ggthemes::wsj_rgby&quot;
+    ) %&gt;% as.character(),
+      domain = NULL
+    )
+) %&gt;% 
+  fmt_missing(columns = vars(irsP1, irsP2, frhP1, fdhP1, irsP3, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3, vrsP1, vrsP2, vrsP3), missing_text = &quot;---&quot;)%&gt;% 
+  cols_label(
+    &quot;DMU&quot; = md(&quot;**DMU**&quot;),
+    irsP1 = &quot;P1&quot;, 
+    irsP2 = &quot;P2&quot;, 
+    irsP3 = &quot;P3&quot;,
+    frhP1 = &quot;P1&quot;,
+    fdhP1 = &quot;P1&quot;, 
+    drsP1 = &quot;P1&quot;, 
+    drsP2 = &quot;P2&quot;, 
+    drsP3 = &quot;P3&quot;, 
+    crsP1 = &quot;P1&quot;, 
+    crsP2 = &quot;P2&quot;, 
+    crsP3 = &quot;P3&quot;, 
+    vrsP1 = &quot;P1&quot;, 
+    vrsP2 = &quot;P2&quot;, 
+    vrsP3 = &quot;P3&quot;
+  )</code></pre>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zojjhhgkxi .gt_table {
+#gdwuflxhbh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
-  color: #333333;
+  color: black;
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -1158,8 +1209,8 @@ gt(
   border-left-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_heading {
-  background-color: #FFFFFF;
+#gdwuflxhbh .gt_heading {
+  background-color: whitesmoke;
   text-align: center;
   border-bottom-color: #FFFFFF;
   border-left-style: none;
@@ -1170,8 +1221,8 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_title {
-  color: #333333;
+#gdwuflxhbh .gt_title {
+  color: black;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
@@ -1180,8 +1231,8 @@ gt(
   border-bottom-width: 0;
 }
 
-#zojjhhgkxi .gt_subtitle {
-  color: #333333;
+#gdwuflxhbh .gt_subtitle {
+  color: black;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
@@ -1190,13 +1241,13 @@ gt(
   border-top-width: 0;
 }
 
-#zojjhhgkxi .gt_bottom_border {
+#gdwuflxhbh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_col_headings {
+#gdwuflxhbh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1211,9 +1262,9 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
+#gdwuflxhbh .gt_col_heading {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -1231,9 +1282,9 @@ gt(
   overflow-x: hidden;
 }
 
-#zojjhhgkxi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
+#gdwuflxhbh .gt_column_spanner_outer {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -1243,15 +1294,15 @@ gt(
   padding-right: 4px;
 }
 
-#zojjhhgkxi .gt_column_spanner_outer:first-child {
+#gdwuflxhbh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zojjhhgkxi .gt_column_spanner_outer:last-child {
+#gdwuflxhbh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zojjhhgkxi .gt_column_spanner {
+#gdwuflxhbh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1263,9 +1314,9 @@ gt(
   width: 100%;
 }
 
-#zojjhhgkxi .gt_group_heading {
+#gdwuflxhbh .gt_group_heading {
   padding: 8px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1285,9 +1336,9 @@ gt(
   vertical-align: middle;
 }
 
-#zojjhhgkxi .gt_empty_group_heading {
+#gdwuflxhbh .gt_empty_group_heading {
   padding: 0.5px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1300,15 +1351,15 @@ gt(
   vertical-align: middle;
 }
 
-#zojjhhgkxi .gt_from_md > :first-child {
+#gdwuflxhbh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zojjhhgkxi .gt_from_md > :last-child {
+#gdwuflxhbh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zojjhhgkxi .gt_row {
+#gdwuflxhbh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1327,8 +1378,8 @@ gt(
   overflow-x: hidden;
 }
 
-#zojjhhgkxi .gt_stub {
-  color: #333333;
+#gdwuflxhbh .gt_stub {
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1339,8 +1390,8 @@ gt(
   padding-left: 12px;
 }
 
-#zojjhhgkxi .gt_summary_row {
-  color: #333333;
+#gdwuflxhbh .gt_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -1349,7 +1400,7 @@ gt(
   padding-right: 5px;
 }
 
-#zojjhhgkxi .gt_first_summary_row {
+#gdwuflxhbh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1359,8 +1410,8 @@ gt(
   border-top-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_grand_summary_row {
-  color: #333333;
+#gdwuflxhbh .gt_grand_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -1369,7 +1420,7 @@ gt(
   padding-right: 5px;
 }
 
-#zojjhhgkxi .gt_first_grand_summary_row {
+#gdwuflxhbh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1379,11 +1430,11 @@ gt(
   border-top-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_striped {
+#gdwuflxhbh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zojjhhgkxi .gt_table_body {
+#gdwuflxhbh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1392,8 +1443,8 @@ gt(
   border-bottom-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_footnotes {
-  color: #333333;
+#gdwuflxhbh .gt_footnotes {
+  color: black;
   background-color: #FFFFFF;
   border-bottom-style: none;
   border-bottom-width: 2px;
@@ -1406,14 +1457,14 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_footnote {
+#gdwuflxhbh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zojjhhgkxi .gt_sourcenotes {
-  color: #333333;
+#gdwuflxhbh .gt_sourcenotes {
+  color: black;
   background-color: #FFFFFF;
   border-bottom-style: none;
   border-bottom-width: 2px;
@@ -1426,188 +1477,195 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#zojjhhgkxi .gt_sourcenote {
+#gdwuflxhbh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zojjhhgkxi .gt_left {
+#gdwuflxhbh .gt_left {
   text-align: left;
 }
 
-#zojjhhgkxi .gt_center {
+#gdwuflxhbh .gt_center {
   text-align: center;
 }
 
-#zojjhhgkxi .gt_right {
+#gdwuflxhbh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zojjhhgkxi .gt_font_normal {
+#gdwuflxhbh .gt_font_normal {
   font-weight: normal;
 }
 
-#zojjhhgkxi .gt_font_bold {
+#gdwuflxhbh .gt_font_bold {
   font-weight: bold;
 }
 
-#zojjhhgkxi .gt_font_italic {
+#gdwuflxhbh .gt_font_italic {
   font-style: italic;
 }
 
-#zojjhhgkxi .gt_super {
+#gdwuflxhbh .gt_super {
   font-size: 65%;
 }
 
-#zojjhhgkxi .gt_footnote_marks {
+#gdwuflxhbh .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="zojjhhgkxi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="gdwuflxhbh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="14" class="gt_heading gt_title gt_font_normal" style>Hope Valley Facility Peers</th>
+      <th colspan="15" class="gt_heading gt_title gt_font_normal" style><strong>Hope Valley Facility Peers</strong></th>
     </tr>
     <tr>
-      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+      <th colspan="15" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
     </tr>
   </thead>
   <thead class="gt_col_headings">
     <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1"><strong>DMU</strong></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
-        <span class="gt_column_spanner">CRS</span>
+        <span class="gt_column_spanner"><strong>CRS</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
-        <span class="gt_column_spanner">DRS</span>
+        <span class="gt_column_spanner"><strong>DRS</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="1">
-        <span class="gt_column_spanner">FDH</span>
+        <span class="gt_column_spanner"><strong>FDH</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="1">
-        <span class="gt_column_spanner">FRH</span>
+        <span class="gt_column_spanner"><strong>FRH</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
-        <span class="gt_column_spanner">IRS</span>
+        <span class="gt_column_spanner"><strong>IRS</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
-        <span class="gt_column_spanner">VRS</span>
+        <span class="gt_column_spanner"><strong>VRS</strong></span>
       </th>
     </tr>
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsP2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsP3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsP2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsP3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsP2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsP3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsP1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsP2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsP3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P3</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
     </tr>
     <tr>
-      <td class="gt_row gt_center" style="background-color: #FF8200; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF8200; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF6200; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FF6200; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FF6E00; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF6E00; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
+      <td class="gt_row gt_center gt_striped">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D5695D; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D5695D; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D68B62; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D68B62; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D67F60; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D67F60; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
     </tr>
     <tr>
-      <td class="gt_row gt_center" style="background-color: #D4C800; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #D4C800; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FF9000; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #FF9000; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">3</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_center" style="background-color: #5D8CA8; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #5D8CA8; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #C4726C; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #C4726C; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">3</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
     </tr>
     <tr>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #E6BB00; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #E6BB00; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #BAD700; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #BAD700; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
+      <td class="gt_row gt_center gt_striped">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #65A479; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #65A479; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808799; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808799; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #61929D; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #61929D; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #808080; color: #000000;">&mdash;</td>
     </tr>
     <tr>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #A8E000; color: #000000;">5</td>
-      <td class="gt_row gt_center" style="background-color: #A8E000; color: #000000;">5</td>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">5</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">5</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
-      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">NA</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">4</td>
+      <td class="gt_row gt_center" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center" style="background-color: #A67D82; color: #000000;">4</td>
+      <td class="gt_row gt_center" style="background-color: #639696; color: #000000;">5</td>
+      <td class="gt_row gt_center" style="background-color: #639696; color: #000000;">5</td>
+      <td class="gt_row gt_center" style="background-color: #65A479; color: #000000;">5</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #65A479; color: #000000;">5</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
+      <td class="gt_row gt_center" style="background-color: #808080; color: #000000;">&mdash;</td>
     </tr>
     <tr>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">4</td>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">6</td>
-      <td class="gt_row gt_center" style="background-color: #00FF00; color: #000000;">6</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">5</td>
-      <td class="gt_row gt_center" style="background-color: #FF0000; color: #FFFFFF;">1</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">2</td>
-      <td class="gt_row gt_center" style="background-color: #FFA500; color: #000000;">5</td>
+      <td class="gt_row gt_center gt_striped">6</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">4</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #65A479; color: #000000;">6</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #65A479; color: #000000;">6</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">5</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #D3BA68; color: #000000;">1</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">2</td>
+      <td class="gt_row gt_center gt_striped" style="background-color: #A67D82; color: #000000;">5</td>
     </tr>
   </tbody>
   
@@ -1616,56 +1674,101 @@ gt(
 </div>
 <div id="hope-valley-facility-lambda" class="section level4">
 <h4>Hope Valley Facility Lambda</h4>
-<pre class="r"><code>hope_valley_lamb &lt;- cbind(l_crs, l_drs, l_fdh, l_frh, l_irs, l_vrs)
+<pre class="r"><code>hope_valley_lamb &lt;- cbind(&quot;DMU&quot; = c(1:6), l_crs, l_drs, l_fdh, l_frh, l_irs, l_vrs)
 
 gt(
   data = hope_valley_lamb
 ) %&gt;%
   tab_header(
-    title = &quot;Hope Valley Facility Lambda&quot;
-) %&gt;% 
+    title = md(&quot;**Hope Valley Facility Lambda**&quot;)
+)%&gt;% 
   tab_spanner(
-    label = &quot;CRS&quot;,
+    label = md(&quot;**CRS**&quot;),
     vars(crsL1, crsL2, crsL3, crsL4)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;DRS&quot;,
+    label = md(&quot;**DRS**&quot;),
     vars(drsL1, drsL2, drsL3, drsL4)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;FDH&quot;,
+    label = md(&quot;**FDH**&quot;),
     vars(fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6)
 ) %&gt;%  
   tab_spanner(
-    label = &quot;FRH&quot;,
+    label = md(&quot;**FRH**&quot;),
     vars(frhL1, frhL2, frhL3, frhL4, frhL5, frhL6) 
 ) %&gt;% 
     tab_spanner(
-    label = &quot;IRS&quot;,
+    label = md(&quot;**IRS**&quot;),
     vars(irsL1, irsL2, irsL3, irsL4, irsL5)
 ) %&gt;% 
   tab_spanner(
-    label = &quot;VRS&quot;,
-    vars(vrsL1, vrsL1, vrsL3, vrsL4, vrsL5)
+    label = md(&quot;**VRS**&quot;),
+    vars(vrsL1, vrsL2, vrsL3, vrsL4, vrsL5)
 ) %&gt;% 
   fmt_number (
     vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
-    decimals = 2
-)%&gt;%
+    decimals = 2,
+    drop_trailing_zeros = TRUE
+)  %&gt;% 
+  opt_row_striping(row_striping = TRUE) %&gt;% 
+  tab_options(
+    table.font.color = &quot;black&quot;,
+    column_labels.background.color = &quot;whitesmoke&quot;,
+    heading.background.color = &quot;whitesmoke&quot;,
+  ) %&gt;% 
   data_color(
-    columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
-    colors = c(&quot;red&quot;, &quot;orange&quot;, &quot;green&quot;)
-)</code></pre>
+    columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL3, drsL2, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = &quot;ggthemes::wsj_rgby&quot;
+    ) %&gt;% as.character(),
+      domain = NULL
+    )
+) %&gt;% 
+  fmt_missing(columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5), missing_text = &quot;---&quot;) %&gt;% 
+  cols_label(
+    &quot;DMU&quot; = md(&quot;**DMU**&quot;),
+    crsL1 = &quot;L1&quot;, 
+    crsL2 = &quot;L2&quot;, 
+    crsL3 = &quot;L3&quot;, 
+    crsL4 = &quot;L4&quot;, 
+    drsL1 = &quot;L1&quot;, 
+    drsL2 = &quot;L2&quot;, 
+    drsL3 = &quot;L3&quot;, 
+    drsL4 = &quot;L4&quot;, 
+    fdhL1 = &quot;L1&quot;, 
+    fdhL2 = &quot;L2&quot;, 
+    fdhL3 = &quot;L3&quot;, 
+    fdhL4 = &quot;L4&quot;, 
+    fdhL5 = &quot;L5&quot;, 
+    fdhL6 = &quot;L6&quot;, 
+    frhL1 = &quot;L1&quot;, 
+    frhL2 = &quot;L2&quot;, 
+    frhL3 = &quot;L3&quot;, 
+    frhL4 = &quot;L4&quot;, 
+    frhL5 = &quot;L5&quot;, 
+    frhL6 = &quot;L6&quot;, 
+    irsL1 = &quot;L1&quot;, 
+    irsL2 = &quot;L2&quot;, 
+    irsL3 = &quot;L3&quot;, 
+    irsL4 = &quot;L4&quot;, 
+    irsL5 = &quot;L5&quot;, 
+    vrsL1 = &quot;L1&quot;, 
+    vrsL2 = &quot;L2&quot;, 
+    vrsL3 = &quot;L3&quot;, 
+    vrsL4 = &quot;L4&quot;, 
+    vrsL5 = &quot;L5&quot;)</code></pre>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pxzzpwgipi .gt_table {
+#vbumoscuio .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
-  color: #333333;
+  color: black;
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -1685,8 +1788,8 @@ gt(
   border-left-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_heading {
-  background-color: #FFFFFF;
+#vbumoscuio .gt_heading {
+  background-color: whitesmoke;
   text-align: center;
   border-bottom-color: #FFFFFF;
   border-left-style: none;
@@ -1697,8 +1800,8 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_title {
-  color: #333333;
+#vbumoscuio .gt_title {
+  color: black;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
@@ -1707,8 +1810,8 @@ gt(
   border-bottom-width: 0;
 }
 
-#pxzzpwgipi .gt_subtitle {
-  color: #333333;
+#vbumoscuio .gt_subtitle {
+  color: black;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
@@ -1717,13 +1820,13 @@ gt(
   border-top-width: 0;
 }
 
-#pxzzpwgipi .gt_bottom_border {
+#vbumoscuio .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_col_headings {
+#vbumoscuio .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1738,9 +1841,9 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
+#vbumoscuio .gt_col_heading {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -1758,9 +1861,9 @@ gt(
   overflow-x: hidden;
 }
 
-#pxzzpwgipi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
+#vbumoscuio .gt_column_spanner_outer {
+  color: black;
+  background-color: whitesmoke;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -1770,15 +1873,15 @@ gt(
   padding-right: 4px;
 }
 
-#pxzzpwgipi .gt_column_spanner_outer:first-child {
+#vbumoscuio .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pxzzpwgipi .gt_column_spanner_outer:last-child {
+#vbumoscuio .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pxzzpwgipi .gt_column_spanner {
+#vbumoscuio .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1790,9 +1893,9 @@ gt(
   width: 100%;
 }
 
-#pxzzpwgipi .gt_group_heading {
+#vbumoscuio .gt_group_heading {
   padding: 8px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1812,9 +1915,9 @@ gt(
   vertical-align: middle;
 }
 
-#pxzzpwgipi .gt_empty_group_heading {
+#vbumoscuio .gt_empty_group_heading {
   padding: 0.5px;
-  color: #333333;
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1827,15 +1930,15 @@ gt(
   vertical-align: middle;
 }
 
-#pxzzpwgipi .gt_from_md > :first-child {
+#vbumoscuio .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pxzzpwgipi .gt_from_md > :last-child {
+#vbumoscuio .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pxzzpwgipi .gt_row {
+#vbumoscuio .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1854,8 +1957,8 @@ gt(
   overflow-x: hidden;
 }
 
-#pxzzpwgipi .gt_stub {
-  color: #333333;
+#vbumoscuio .gt_stub {
+  color: black;
   background-color: #FFFFFF;
   font-size: 100%;
   font-weight: initial;
@@ -1866,8 +1969,8 @@ gt(
   padding-left: 12px;
 }
 
-#pxzzpwgipi .gt_summary_row {
-  color: #333333;
+#vbumoscuio .gt_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -1876,7 +1979,7 @@ gt(
   padding-right: 5px;
 }
 
-#pxzzpwgipi .gt_first_summary_row {
+#vbumoscuio .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1886,8 +1989,8 @@ gt(
   border-top-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_grand_summary_row {
-  color: #333333;
+#vbumoscuio .gt_grand_summary_row {
+  color: black;
   background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
@@ -1896,7 +1999,7 @@ gt(
   padding-right: 5px;
 }
 
-#pxzzpwgipi .gt_first_grand_summary_row {
+#vbumoscuio .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1906,11 +2009,11 @@ gt(
   border-top-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_striped {
+#vbumoscuio .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pxzzpwgipi .gt_table_body {
+#vbumoscuio .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1919,8 +2022,8 @@ gt(
   border-bottom-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_footnotes {
-  color: #333333;
+#vbumoscuio .gt_footnotes {
+  color: black;
   background-color: #FFFFFF;
   border-bottom-style: none;
   border-bottom-width: 2px;
@@ -1933,14 +2036,14 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_footnote {
+#vbumoscuio .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#pxzzpwgipi .gt_sourcenotes {
-  color: #333333;
+#vbumoscuio .gt_sourcenotes {
+  color: black;
   background-color: #FFFFFF;
   border-bottom-style: none;
   border-bottom-width: 2px;
@@ -1953,300 +2056,307 @@ gt(
   border-right-color: #D3D3D3;
 }
 
-#pxzzpwgipi .gt_sourcenote {
+#vbumoscuio .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#pxzzpwgipi .gt_left {
+#vbumoscuio .gt_left {
   text-align: left;
 }
 
-#pxzzpwgipi .gt_center {
+#vbumoscuio .gt_center {
   text-align: center;
 }
 
-#pxzzpwgipi .gt_right {
+#vbumoscuio .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pxzzpwgipi .gt_font_normal {
+#vbumoscuio .gt_font_normal {
   font-weight: normal;
 }
 
-#pxzzpwgipi .gt_font_bold {
+#vbumoscuio .gt_font_bold {
   font-weight: bold;
 }
 
-#pxzzpwgipi .gt_font_italic {
+#vbumoscuio .gt_font_italic {
   font-style: italic;
 }
 
-#pxzzpwgipi .gt_super {
+#vbumoscuio .gt_super {
   font-size: 65%;
 }
 
-#pxzzpwgipi .gt_footnote_marks {
+#vbumoscuio .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="pxzzpwgipi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="vbumoscuio" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="30" class="gt_heading gt_title gt_font_normal" style>Hope Valley Facility Lambda</th>
+      <th colspan="31" class="gt_heading gt_title gt_font_normal" style><strong>Hope Valley Facility Lambda</strong></th>
     </tr>
     <tr>
-      <th colspan="30" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+      <th colspan="31" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
     </tr>
   </thead>
   <thead class="gt_col_headings">
     <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1"><strong>DMU</strong></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
-        <span class="gt_column_spanner">CRS</span>
+        <span class="gt_column_spanner"><strong>CRS</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
-        <span class="gt_column_spanner">DRS</span>
+        <span class="gt_column_spanner"><strong>DRS</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="6">
-        <span class="gt_column_spanner">FDH</span>
+        <span class="gt_column_spanner"><strong>FDH</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="6">
-        <span class="gt_column_spanner">FRH</span>
+        <span class="gt_column_spanner"><strong>FRH</strong></span>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="5">
-        <span class="gt_column_spanner">IRS</span>
+        <span class="gt_column_spanner"><strong>IRS</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
-        <span class="gt_column_spanner">VRS</span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="5">
+        <span class="gt_column_spanner"><strong>VRS</strong></span>
       </th>
-      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">vrsL2</th>
     </tr>
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsL2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">crsL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsL2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">drsL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL5</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fdhL6</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL5</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frhL6</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsL2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">irsL5</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsL1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsL3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsL4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">vrsL5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L6</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L6</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">L5</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
+      <td class="gt_row gt_center gt_striped">2</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
+      <td class="gt_row gt_center gt_striped">4</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right" style="background-color: #FF6200; color: #000000;">0.20</td>
-      <td class="gt_row gt_right" style="background-color: #FF3B00; color: #FFFFFF;">0.08</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #F6AE00; color: #000000;">0.54</td>
-      <td class="gt_row gt_right" style="background-color: #FF6200; color: #000000;">0.20</td>
-      <td class="gt_row gt_right" style="background-color: #FF3B00; color: #FFFFFF;">0.08</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #F6AE00; color: #000000;">0.54</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_right" style="background-color: #D68B62; color: #000000;">0.2</td>
+      <td class="gt_row gt_right" style="background-color: #D5A766; color: #000000;">0.08</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #99818B; color: #000000;">0.54</td>
+      <td class="gt_row gt_right" style="background-color: #D68B62; color: #000000;">0.2</td>
+      <td class="gt_row gt_right" style="background-color: #D5A766; color: #000000;">0.08</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #99818B; color: #000000;">0.54</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right" style="background-color: #65A479; color: #000000;">1</td>
     </tr>
     <tr>
-      <td class="gt_row gt_right" style="background-color: #FF8400; color: #000000;">0.34</td>
-      <td class="gt_row gt_right" style="background-color: #FF8F00; color: #000000;">0.39</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF4D00; color: #FFFFFF;">0.13</td>
-      <td class="gt_row gt_right" style="background-color: #FF8400; color: #000000;">0.34</td>
-      <td class="gt_row gt_right" style="background-color: #FF8F00; color: #000000;">0.39</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF4D00; color: #FFFFFF;">0.13</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #00FF00; color: #000000;">1.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF9100; color: #000000;">0.40</td>
-      <td class="gt_row gt_right" style="background-color: #FF8400; color: #000000;">0.34</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF7000; color: #000000;">0.26</td>
-      <td class="gt_row gt_right" style="background-color: #FF9100; color: #000000;">0.40</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF0000; color: #FFFFFF;">0.00</td>
-      <td class="gt_row gt_right" style="background-color: #FF7000; color: #000000;">0.26</td>
-      <td class="gt_row gt_right" style="background-color: #FF8400; color: #000000;">0.34</td>
+      <td class="gt_row gt_center gt_striped">6</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D36A5F; color: #000000;">0.34</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #C5716B; color: #000000;">0.39</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D69C64; color: #000000;">0.13</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D36A5F; color: #000000;">0.34</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #C5716B; color: #000000;">0.39</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D69C64; color: #000000;">0.13</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #65A479; color: #000000;">1</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #C3726C; color: #000000;">0.4</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D36A5F; color: #000000;">0.34</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D67D60; color: #000000;">0.26</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #C3726C; color: #000000;">0.4</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D36A5F; color: #000000;">0.34</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D3BA68; color: #000000;">0</td>
+      <td class="gt_row gt_right gt_striped" style="background-color: #D67D60; color: #000000;">0.26</td>
     </tr>
   </tbody>
   

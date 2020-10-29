@@ -2,10 +2,6 @@
 title: "mbruner3_8"
 author: "Mark Bruner"
 date: "10/19/2020"
-output:
-  html_document: default
-  word_document: default
-  pdf_document: default
 ---
 ```{r}
 rm(list=ls())
@@ -36,15 +32,16 @@ colnames(hope_valley) <- c("reimbur_patient_day", "priv_patient_day", "st_hour_d
 
 str(hope_valley) 
 ```
-#### FDH Model
-```{r}
-fdh <- dea(x, y, RTS = "fdh")            # provide the input and output 
 
-as.data.frame(peers(fdh)) -> p_fdh                       # identify the peers
+### MODEL 1: *FDH*
+```{r}
+fdh <- dea(x, y, RTS = "fdh")        # provide the input and output 
+
+as.data.frame(peers(fdh)) -> p_fdh       # identify the peers
 p_fdh %>% 
   rename(fdhP1 = peer1) -> p_fdh
 
-as.data.frame(lambda(fdh)) -> l_fdh                    # identify the relative weights given to the peers
+as.data.frame(lambda(fdh)) -> l_fdh   # identify the relative weights given to the peers
 l_fdh %>% 
   rename(fdhL1 = L1, fdhL2 = L2, fdhL3 = L3, fdhL4 = L4, fdhL5 = L5, fdhL6 = L6) -> l_fdh
 
@@ -57,13 +54,14 @@ l_fdh
 
 ```{r}
 e_fdh <- fdh$eff
+e_fdh
 ```
 
 The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.
 
 **Note: I did have the plots included for each model but because there exists two inputs and two outputs, I found the plots unhelpful since they would be more than two dimensional.**
 
-#### VRS Model
+### MODEL 2: *VRS*
 ```{r}
 vrs <- dea(x, y, RTS = "vrs")            # provide the input and output 
 
@@ -83,11 +81,12 @@ l_vrs
 
 ```{r}
 e_vrs <- vrs$eff
+e_vrs
 ```
 
 The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256. 
 
-#### DRS Model
+### MODEL 3: *DRS* 
 ```{r}
 drs <- dea(x, y, RTS = "drs")            # provide the input and output 
 
@@ -107,11 +106,12 @@ l_drs
 
 ```{r}
 e_drs <- drs$eff
+e_drs
 ```
 
 The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. For DMU(5), the peer units are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. For DMU(6), the peer units are 1, 2, and 4, with relative weights 0.343, .395 and 0.131.  
 
-#### CRS model
+### MODEL 4: *CRS*
 ```{r}
 crs <- dea(x,y,RTS = "crs")            # provide the input and output 
 
@@ -131,11 +131,12 @@ l_crs
 
 ```{r}
 e_crs <- crs$eff
+e_crs
 ```
 
-The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively. **Same result as the CRS model.**
+The results indicate that DMUs 1 through 4 are efficient. DMU(5) is only 97.75% efficient, and DMU(6) is 86.75% efficient. Further, the peer units for DMU(5) are 1, 2, and 4, with relative weights 0.200, .080 and 0.538. Similarly for DMU(6), the peer units are 1, 2, and 4, with weights 0.342, .395, and 0.131, respectively. **Same result as the DRS model.**
 
-#### IRS model
+### MODEL 5: *IRS*
 ```{r}
 irs <- dea(x,y,RTS = "irs")            # provide the input and output 
 
@@ -156,11 +157,12 @@ l_irs
 
 ```{r}
 e_irs <- irs$eff
+e_irs
 ```
 
 The results indicate that DMUs 1 through 5 are efficient. DMU(6) is only 89.63% efficient. Further, the peer units for DMU(6) are 1, 2, and 5, with relative weights 0.401, .342 and 0.256.
 
-#### FRH model
+### MODEL 6: *FRH*
 ```{r}
 frh <- dea(x,y,RTS = "add")            # provide the input and output 
 
@@ -181,6 +183,7 @@ l_frh
 
 ```{r}
 e_frh <- frh$eff
+e_frh
 ```
 
 The results indicate that DMUs 1 through 6 are all efficient. Their peers are themselves.
@@ -194,10 +197,10 @@ gt(
   data = hope_valley_eff
 ) %>%
   tab_header(
-    title = "Hope Valley Facility Efficiencies"
+    title = md("**Hope Valley Facility Efficiencies**")
 ) %>% 
   cols_label(
-    V1 = "DMU",
+    V1 = md("**DMU**"),
     e_crs = "CRS Eff",
     e_drs = "DRS Eff",
     e_fdh = "FDH Eff",
@@ -207,98 +210,182 @@ gt(
 ) %>% 
   fmt_number (
     vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
-    decimals = 2
+    decimals = 2,
+    drop_trailing_zeros = TRUE
 ) %>% 
-  opt_table_lines(
-) %>%
+  opt_row_striping(row_striping = TRUE) %>% 
+  tab_options(
+    table.font.color = "black",
+    column_labels.background.color = "whitesmoke",
+    heading.background.color = "whitesmoke"
+  ) %>% 
   data_color(
-    columns = vars(e_crs, e_drs, e_fdh, e_frh, e_irs, e_vrs),
-    colors = c("red", "orange", "green")
+    columns = vars(e_crs, e_drs, e_irs, e_vrs),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = "ggthemes::wsj_rgby"
+    ) %>% as.character(),
+      domain = NULL
+    )
 )
 ```
 
 #### Hope Valley Facility Peers 
 ```{r}
-hope_valley_peers <- as.data.frame(cbind(p_crs, p_drs, p_fdh, p_frh, p_irs, p_vrs))
+hope_valley_peers <- as.data.frame(cbind("DMU" = c(1:6), p_crs, p_drs, p_fdh, p_frh, p_irs, p_vrs))
 
 gt(
   data = hope_valley_peers
 ) %>%
   tab_header(
-    title = "Hope Valley Facility Peers"
+    title = md("**Hope Valley Facility Peers**")
 ) %>% 
   tab_spanner(
-    label = "CRS",
+    label = md("**CRS**"),
     vars(crsP1, crsP2, crsP3)
 ) %>% 
   tab_spanner(
-    label = "DRS",
+    label = md("**DRS**"),
     vars(drsP1, drsP2, drsP3)
 ) %>% 
   tab_spanner(
-    label = "FDH",
+    label = md("**FDH**"),
     vars(fdhP1)
 ) %>%  
   tab_spanner(
-    label = "FRH",
+    label = md("**FRH**"),
     vars(frhP1) 
 ) %>% 
     tab_spanner(
-    label = "IRS",
+    label = md("**IRS**"),
     vars(irsP1, irsP2, irsP3)
 ) %>% 
   tab_spanner(
-    label = "VRS",
+    label = md("**VRS**"),
     vars(vrsP1, vrsP2, vrsP3)
-) %>%
+) %>% 
+  opt_row_striping(row_striping = TRUE) %>% 
+  tab_options(
+    table.font.color = "black",
+    column_labels.background.color = "whitesmoke",
+    heading.background.color = "whitesmoke",
+  ) %>% 
   data_color(
-    columns = vars(vrsP1, vrsP2, vrsP3, irsP1, irsP2, irsP3, frhP1, fdhP1, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3),
-    colors = c("red", "orange", "green")
-) 
+    columns = vars(irsP1, irsP2, frhP1, fdhP1, irsP3, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3, vrsP1, vrsP2, vrsP3),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = "ggthemes::wsj_rgby"
+    ) %>% as.character(),
+      domain = NULL
+    )
+) %>% 
+  fmt_missing(columns = vars(irsP1, irsP2, frhP1, fdhP1, irsP3, drsP1, drsP2, drsP3, crsP1, crsP2, crsP3, vrsP1, vrsP2, vrsP3), missing_text = "---")%>% 
+  cols_label(
+    "DMU" = md("**DMU**"),
+    irsP1 = "P1", 
+    irsP2 = "P2", 
+    irsP3 = "P3",
+    frhP1 = "P1",
+    fdhP1 = "P1", 
+    drsP1 = "P1", 
+    drsP2 = "P2", 
+    drsP3 = "P3", 
+    crsP1 = "P1", 
+    crsP2 = "P2", 
+    crsP3 = "P3", 
+    vrsP1 = "P1", 
+    vrsP2 = "P2", 
+    vrsP3 = "P3"
+  )
 ```
 
 #### Hope Valley Facility Lambda
 ```{r}
-hope_valley_lamb <- cbind(l_crs, l_drs, l_fdh, l_frh, l_irs, l_vrs)
+hope_valley_lamb <- cbind("DMU" = c(1:6), l_crs, l_drs, l_fdh, l_frh, l_irs, l_vrs)
 
 gt(
   data = hope_valley_lamb
 ) %>%
   tab_header(
-    title = "Hope Valley Facility Lambda"
-) %>% 
+    title = md("**Hope Valley Facility Lambda**")
+)%>% 
   tab_spanner(
-    label = "CRS",
+    label = md("**CRS**"),
     vars(crsL1, crsL2, crsL3, crsL4)
 ) %>% 
   tab_spanner(
-    label = "DRS",
+    label = md("**DRS**"),
     vars(drsL1, drsL2, drsL3, drsL4)
 ) %>% 
   tab_spanner(
-    label = "FDH",
+    label = md("**FDH**"),
     vars(fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6)
 ) %>%  
   tab_spanner(
-    label = "FRH",
+    label = md("**FRH**"),
     vars(frhL1, frhL2, frhL3, frhL4, frhL5, frhL6) 
 ) %>% 
     tab_spanner(
-    label = "IRS",
+    label = md("**IRS**"),
     vars(irsL1, irsL2, irsL3, irsL4, irsL5)
 ) %>% 
   tab_spanner(
-    label = "VRS",
-    vars(vrsL1, vrsL1, vrsL3, vrsL4, vrsL5)
+    label = md("**VRS**"),
+    vars(vrsL1, vrsL2, vrsL3, vrsL4, vrsL5)
 ) %>% 
   fmt_number (
     vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
-    decimals = 2
-)%>%
+    decimals = 2,
+    drop_trailing_zeros = TRUE
+)  %>% 
+  opt_row_striping(row_striping = TRUE) %>% 
+  tab_options(
+    table.font.color = "black",
+    column_labels.background.color = "whitesmoke",
+    heading.background.color = "whitesmoke",
+  ) %>% 
   data_color(
-    columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
-    colors = c("red", "orange", "green")
-)
+    columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL3, drsL2, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5),
+    colors = scales::col_numeric(
+    palette = paletteer::paletteer_d(
+        palette = "ggthemes::wsj_rgby"
+    ) %>% as.character(),
+      domain = NULL
+    )
+) %>% 
+  fmt_missing(columns = vars(crsL1, crsL2, crsL3, crsL4, drsL1, drsL2, drsL3, drsL4, fdhL1, fdhL2, fdhL3, fdhL4, fdhL5, fdhL6, frhL1, frhL2, frhL3, frhL4, frhL5, frhL6, irsL1, irsL2, irsL3, irsL4, irsL5, vrsL1, vrsL2, vrsL3, vrsL4, vrsL5), missing_text = "---") %>% 
+  cols_label(
+    "DMU" = md("**DMU**"),
+    crsL1 = "L1", 
+    crsL2 = "L2", 
+    crsL3 = "L3", 
+    crsL4 = "L4", 
+    drsL1 = "L1", 
+    drsL2 = "L2", 
+    drsL3 = "L3", 
+    drsL4 = "L4", 
+    fdhL1 = "L1", 
+    fdhL2 = "L2", 
+    fdhL3 = "L3", 
+    fdhL4 = "L4", 
+    fdhL5 = "L5", 
+    fdhL6 = "L6", 
+    frhL1 = "L1", 
+    frhL2 = "L2", 
+    frhL3 = "L3", 
+    frhL4 = "L4", 
+    frhL5 = "L5", 
+    frhL6 = "L6", 
+    irsL1 = "L1", 
+    irsL2 = "L2", 
+    irsL3 = "L3", 
+    irsL4 = "L4", 
+    irsL5 = "L5", 
+    vrsL1 = "L1", 
+    vrsL2 = "L2", 
+    vrsL3 = "L3", 
+    vrsL4 = "L4", 
+    vrsL5 = "L5")
 ```
 
 # QUESTION 4

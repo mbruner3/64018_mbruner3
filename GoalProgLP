@@ -1,0 +1,7 @@
+// Objective Function
+max: (20 x1 + 15 x2 + 25 x3) - 6*(y2pos - y2neg) - 3y3neg;
+
+/* Constraints */
+max: 20 x1 + 15 x2 + 25 x3 
+6 x1 + 4 x2 + 5 x3 - (y1pos - y1neg) = 50
+8 x1 + 7 x2 + 5 x3 - (y2pos - y2neg) = 75 

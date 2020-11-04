@@ -2,7 +2,9 @@
 title: "mbruner3_9"
 author: "Mark Bruner"
 date: "11/2/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 ```{r}
 rm(list=ls())

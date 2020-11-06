@@ -26,4 +26,4 @@ get.variables(gp)
 ```
 
 ### **Summary**
-The maximum profit given the goals would be 225 million dollars if they produce only 15 units of Product 3 and 0 of Product 1 and 2, respectively. Also, both the goals are met of employment and earnings did not increase but remained at 75 million dollars.  
+The maximum profit given the goals would be 225 million dollars if they produce only 15 units of Product 3 and 0 of Product 1 and 2, respectively. Also, both the goals are met of employment and earnings.  

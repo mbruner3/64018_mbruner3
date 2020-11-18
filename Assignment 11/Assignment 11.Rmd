@@ -1,0 +1,82 @@
+---
+title: "Assignment 11"
+author: "Mark Bruner"
+date: "11/17/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+rm(list=ls())
+```
+
+```{r}
+library(lpSolveAPI)
+library(kableExtra)
+```
+
+```{r}
+ip <- read.lp("worker.lp")
+ip
+```
+
+```{r}
+solve(ip)
+get.objective(ip)
+get.variables(ip)
+```
+
+## SUMMARY OF RESULTS
+
+### **Objective Function Minimization**
+* The lowest weekly employee cost is **$25,675.** 
+
+### **Employees Working Each Shift Per Day**
+
+#### **Table 1:**
+ 
+```{r}
+Shift <- c(1:7)
+Employees <- c(2, 4, 5, 0, 8, 1, 13)
+table1 <- cbind(Shift, Employees)
+
+table1 %>% 
+         kbl(caption = "Most Employees Work Shifts 5 and 7") %>% 
+        kable_classic(full_width = FALSE) %>% 
+        kable_styling(bootstrap_options = "striped", position = "center") %>% 
+       column_spec(1, bold = TRUE) %>% 
+        row_spec(1, color = "white", background = "#41B3A3") %>%
+        row_spec(2, color = "white", background = "#41B3A3") %>% 
+        row_spec(3, color = "white", background = "#41B3A3") %>% 
+        row_spec(4, color = "white", background = "#41B3A3") %>% 
+        row_spec(5, bold = T, background = "#C38D9E") %>% 
+        row_spec(6, color = "white", background = "#41B3A3") %>% 
+        row_spec(7, bold = T, background = "#C38D9E") %>% 
+        row_spec(0, bold = T) 
+```
+ 
+ **Explanation:** Shift 7 has the highest number of employees working due to it being the lowest cost of weekly wage of $750. Shift 5 has a higher amount due to needing to make sure the weekend employee constraint was met for Saturday.
+ 
+### **Total Employees Working Per Day**
+#### **Table 2:**
+ 
+```{r}
+Days <- c("Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat")
+Tot_Employees <- c(18, 27, 24, 28, 25, 24, 19)
+table2 <- cbind(Days, Tot_Employees)
+
+table2 %>% 
+        kbl(caption = "Most Employees Are Working on Week Days") %>% 
+        kable_classic(full_width = FALSE) %>% 
+        kable_styling(bootstrap_options = "striped", position = "center") %>% 
+       column_spec(1, bold = TRUE) %>% 
+        row_spec(1, color = "white", background = "#B22222") %>%
+        row_spec(2:6, background = "#97CAEF") %>% 
+        row_spec(7, color = "white", background = "#B22222") %>% 
+        row_spec(0, bold = T)
+```
+
+ 
+ **Explanation:** The algorithm met exactly the constraints for Sat. and Sun. to minimize costs on the more expensive days for the company. 
+ 

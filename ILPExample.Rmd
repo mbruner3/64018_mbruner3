@@ -1,0 +1,31 @@
+---
+title: "mbruner3_9"
+author: "Mark Bruner"
+date: "11/2/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+rm(list=ls())
+```
+
+```{r}
+library(lpSolveAPI)
+```
+
+```{r}
+ip <- read.lp("plant.lp")
+ip 
+
+```
+
+```{r}
+solve(ip)
+get.objective(ip)
+get.constraints(ip)
+get.variables(ip)
+```
+
+### **Summary**
+The maximum profit given the goals would be 225 million dollars if they produce only 15 units of Product 3 and 0 of Product 1 and 2, respectively. Also, the second goal of earnings being >= to $75 million is met. The first goal, however, will not be met and will go over the employment level by 25 people.  
